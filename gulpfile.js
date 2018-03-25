@@ -16,6 +16,9 @@ const stylelint = require('gulp-stylelint');
 const rename = require('gulp-rename');
 const browserSync = require('browser-sync').create();
 const sequence = require('run-sequence');
+const babel = require("gulp-babel");
+const concat = require("gulp-concat");
+const uglify = require("gulp-uglifyjs");
 
 gulp.task('html', () =>
   gulp
@@ -59,6 +62,15 @@ gulp.task('svg-sprite', () =>
     .pipe(rename('sprite.svg'))
     .pipe(gulp.dest('./build/img')),
 );
+gulp.task("js", () => {
+  return gulp
+      .src("./src/js/*.js")
+      .pipe(babel())
+      .pipe(concat('all.js'))
+      .pipe(uglify('all.js'))
+      .pipe(gulp.dest("./build/"))
+
+});
 
 gulp.task('images', () =>
   gulp
